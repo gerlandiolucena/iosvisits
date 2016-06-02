@@ -6,16 +6,28 @@
 //  Copyright © 2016 ZAP Imóveis. All rights reserved.
 //
 
+import Foundation
+import CoreLocation
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
-
+    var locationManager: CLLocationManager?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.requestAlwaysAuthorization()
+        locationManager?.requestWhenInUseAuthorization()
+        locationManager?.startMonitoringVisits()
+        
+        let notificationCategory:UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
+        notificationCategory.identifier = "INVITE_CATEGORY"
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes:[.Sound, .Alert, .Badge], categories: nil))
+        
         
         return true
     }
@@ -32,6 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -41,6 +55,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(application: UIApplication) {
+    }
+
+    func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd/MM/YYYY hh:mm:ss"
+        
+        let message = "\(dateFormatter.stringFromDate(visit.arrivalDate)), \(visit.coordinate.latitude), \(visit.coordinate.longitude), \(visit.horizontalAccuracy)"
+        let notification = UILocalNotification()
+        notification.alertBody = "Você visitou o local \(message)"
+        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+    }
+    
+    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        //
+    }
+    
+    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+        //
     }
 
 
