@@ -27,9 +27,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let notificationCategory:UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
         notificationCategory.identifier = "INVITE_CATEGORY"
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes:[.Sound, .Alert, .Badge], categories: nil))
-        
+        //addPlaces()
         
         return true
+    }
+    
+    func addPlaces() {
+        MyPlaces(value: ["latitude": -23.595708,
+        "longitude": -46.684340,
+        "chegada": NSDate(),
+        "saida": NSDate()]).saveObject()
+        
+        MyPlaces(value: ["latitude": -23.596566,
+        "longitude": -46.684570,
+        "chegada": NSDate(),
+        "saida": NSDate()]).saveObject()
     }
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
@@ -58,11 +70,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
 
     func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd/MM/YYYY hh:mm:ss"
-        
-        let message = "\(dateFormatter.stringFromDate(visit.arrivalDate)), \(visit.coordinate.latitude), \(visit.coordinate.longitude), \(visit.horizontalAccuracy)"
+        //A visita ainda não finalizou
+        if !visit.departureDate.isEqualToDate(NSDate.distantFuture()) {
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "dd/MM/YYYY hh:mm:ss"
+            let message = "\(dateFormatter.stringFromDate(visit.arrivalDate)), \(visit.coordinate.latitude), \(visit.coordinate.longitude), \(visit.horizontalAccuracy)"
+            showNotification(message)
+            MyPlaces(value: ["latitude": visit.coordinate.latitude,
+            "longitude": visit.coordinate.longitude,
+            "chegada": visit.arrivalDate,
+            "saida": visit.departureDate]).saveObject()
+        }
+    }
+    
+    func showNotification(message: String){
         let notification = UILocalNotification()
+        notification.alertTitle = "Local visitado!"
         notification.alertBody = "Você visitou o local \(message)"
         UIApplication.sharedApplication().presentLocalNotificationNow(notification)
     }

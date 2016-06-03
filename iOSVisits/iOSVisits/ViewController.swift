@@ -7,19 +7,41 @@
 //
 
 import UIKit
+import MapKit
+import RealmSwift
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, MKMapViewDelegate {
+    
+    @IBOutlet weak var mapView: MKMapView!
+    var places: Results<MyPlaces>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        let realm = try! Realm()
+        places = realm.objects(MyPlaces)
+        loadAnnotations()
+    }
+    
+    func loadAnnotations() {
+        guard let places = places else {
+            return
+        }
+        
+        for place in places {
+            let annotation = PlaceAnnotation(
+                title: "",
+                coord: CLLocationCoordinate2D(
+                    latitude: place.latitude,
+                    longitude: place.longitude))
+            mapView.addAnnotation(annotation)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-
 }
 
