@@ -13,6 +13,7 @@
 		6C1C3A421D01BB76002E558A /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1C3A411D01BB76002E558A /* PlaceAnnotation.swift */; };
 		6C1C3A441D01C4B1002E558A /* PlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1C3A431D01C4B1002E558A /* PlaceListViewController.swift */; };
 		6C1C3A471D01C933002E558A /* Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1C3A461D01C933002E558A /* Default.swift */; };
+		6C1C3A4B1D01E923002E558A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1C3A4A1D01E923002E558A /* NotificationManager.swift */; };
 		6CC0B6211CEB3026008A1289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC0B6201CEB3026008A1289 /* AppDelegate.swift */; };
 		6CC0B6231CEB3026008A1289 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC0B6221CEB3026008A1289 /* ViewController.swift */; };
 		6CC0B6261CEB3026008A1289 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CC0B6241CEB3026008A1289 /* Main.storyboard */; };
@@ -51,6 +52,7 @@
 		6C1C3A411D01BB76002E558A /* PlaceAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaceAnnotation.swift; path = Components/Annotations/PlaceAnnotation.swift; sourceTree = "<group>"; };
 		6C1C3A431D01C4B1002E558A /* PlaceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceListViewController.swift; sourceTree = "<group>"; };
 		6C1C3A461D01C933002E558A /* Default.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Default.swift; path = Components/Cells/Default.swift; sourceTree = "<group>"; };
+		6C1C3A4A1D01E923002E558A /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		6CC0B61D1CEB3026008A1289 /* iOSVisits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSVisits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC0B6201CEB3026008A1289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CC0B6221CEB3026008A1289 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../ViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,22 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		6C1C3A481D01E8F0002E558A /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				6C1C3A491D01E8FF002E558A /* Notification */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		6C1C3A491D01E8FF002E558A /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				6C1C3A4A1D01E923002E558A /* NotificationManager.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		6CC0B6141CEB3026008A1289 = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +189,7 @@
 		6CC0B61F1CEB3026008A1289 /* iOSVisits */ = {
 			isa = PBXGroup;
 			children = (
+				6C1C3A481D01E8F0002E558A /* Tools */,
 				6C1C3A3D1D01BA62002E558A /* Components */,
 				6C1C3A3A1D01B2C7002E558A /* Controller */,
 				6C1C3A391D01B2A5002E558A /* Model */,
@@ -497,6 +516,7 @@
 				6C1C3A401D01BABB002E558A /* AnnotationView.swift in Sources */,
 				6C1C3A421D01BB76002E558A /* PlaceAnnotation.swift in Sources */,
 				6CC0B6211CEB3026008A1289 /* AppDelegate.swift in Sources */,
+				6C1C3A4B1D01E923002E558A /* NotificationManager.swift in Sources */,
 				6C1C3A3C1D01B414002E558A /* MyPlaces.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

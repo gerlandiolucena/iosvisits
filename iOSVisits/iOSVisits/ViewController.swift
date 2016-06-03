@@ -38,6 +38,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
                     longitude: place.longitude))
             mapView.addAnnotation(annotation)
         }
+        let coordinate = CLLocationCoordinate2D(latitude: places[0].latitude, longitude: places[0].longitude)
+        
+        mapView.setRegion(mapView.regionThatFits(MKCoordinateRegionMakeWithDistance(coordinate, 500, 500)), animated: true)
+        
     }
     
     override func didReceiveMemoryWarning() {

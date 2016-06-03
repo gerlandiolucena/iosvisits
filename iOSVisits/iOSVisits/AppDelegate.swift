@@ -75,19 +75,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "dd/MM/YYYY hh:mm:ss"
             let message = "\(dateFormatter.stringFromDate(visit.arrivalDate)), \(visit.coordinate.latitude), \(visit.coordinate.longitude), \(visit.horizontalAccuracy)"
-            showNotification(message)
+            NotificationManager.showNotification("Local visitado!", message: message)
             MyPlaces(value: ["latitude": visit.coordinate.latitude,
             "longitude": visit.coordinate.longitude,
             "chegada": visit.arrivalDate,
             "saida": visit.departureDate]).saveObject()
+        } else {
+            NotificationManager.scheduleNotification("Você tem um motivo", message: "O Zap tem apartamentos, 2 quartos, 1 vaga na Vila Olímpia e muitos outros imóveis!", interval: 90, forPeriod: Period.Morning)
         }
-    }
-    
-    func showNotification(message: String){
-        let notification = UILocalNotification()
-        notification.alertTitle = "Local visitado!"
-        notification.alertBody = "Você visitou o local \(message)"
-        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
     }
     
     func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
