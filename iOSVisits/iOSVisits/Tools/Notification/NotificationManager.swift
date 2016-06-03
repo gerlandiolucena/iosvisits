@@ -25,7 +25,7 @@ class NotificationManager {
     }
     
     class func scheduleNotification(title: String, message: String, interval: Int, forPeriod: Period){
-        if wasFired(NSDate()) {
+        if wasFired(forPeriod) {
             let notification = UILocalNotification()
             notification.alertTitle = title
             notification.alertBody = message
@@ -35,12 +35,16 @@ class NotificationManager {
         }
     }
     
-    class func wasFired(current: NSDate) -> Bool {
-        let formatedDate = NSDateFormatter()
-        formatedDate.dateFormat = "yyyy/MM/dd 00:00:00"
-        if let currentDate = formatedDate.dateFromString(formatedDate.stringFromDate(NSDate())) {
-            let firedDate = formatedDate.dateFromString(formatedDate.stringFromDate(current))
-            return (firedDate?.isEqualToDate(currentDate))!
+    class func wasFired(forPeriod: Period) -> Bool {
+        if let firedDateObj = NSUserDefaults.standardUserDefaults().objectForKey(forPeriod.rawValue) as? NSDate {
+            let formatedDate = NSDateFormatter()
+            formatedDate.dateFormat = "yyyy/MM/dd 00:00:00"
+            
+            if let currentDate = formatedDate.dateFromString(formatedDate.stringFromDate(NSDate())) {
+                if let firedDate = formatedDate.dateFromString(formatedDate.stringFromDate(firedDateObj)) {
+                    return (currentDate.compare(firedDate) == .OrderedAscending)
+                }
+            }
         }
         
         return false
