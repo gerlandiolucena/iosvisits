@@ -27,8 +27,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         let notificationCategory:UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
         notificationCategory.identifier = "INVITE_CATEGORY"
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes:[.Sound, .Alert, .Badge], categories: nil))
+        //addPlaces()
         
         return true
+    }
+    
+    func addPlaces() {
+        MyPlaces(value: ["latitude": -23.595708,
+        "longitude": -46.684340,
+        "chegada": NSDate(),
+        "saida": NSDate()]).saveObject()
+        
+        MyPlaces(value: ["latitude": -23.596566,
+        "longitude": -46.684570,
+        "chegada": NSDate(),
+        "saida": NSDate()]).saveObject()
     }
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
