@@ -256,6 +256,7 @@
 				6CC0B61B1CEB3026008A1289 /* Resources */,
 				5A90CE34EF437EAA4FBD8B29 /* [CP] Embed Pods Frameworks */,
 				2BD6A5B00503F3016090DFCC /* [CP] Copy Pods Resources */,
+				9A07BF031E856694000EE962 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -462,6 +463,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSVisitsTests/Pods-iOSVisitsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9A07BF031E856694000EE962 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" a5021066d7c210a5b38084d3bc4ab52f8bfb4090 423928fb44c54c4ca737c7139781ab0c56af5d3fa05d04cabfd8e756b2bf25d0";
 		};
 		A02F5829E4F7E155F29CEF8E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

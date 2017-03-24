@@ -6,7 +6,9 @@ target 'iOSVisits' do
   use_frameworks!
 
   pod 'RealmSwift'
-
+  pod 'Fabric'
+  pod 'Crashlytics'
+  
   target 'iOSVisitsTests' do
     inherit! :search_paths
     # Pods for testing

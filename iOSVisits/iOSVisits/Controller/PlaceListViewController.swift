@@ -17,7 +17,7 @@ class PlaceListViewController: UITableViewController {
     
     override func viewDidLoad() {
         let realm = try! Realm()
-        places = realm.objects(MyPlaces)
+        places = realm.objects(MyPlaces.self)
         arrayList = [MyPlaces]()
         if let places = places {
             for place in places {
@@ -41,14 +41,15 @@ class PlaceListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "default", for: indexPath)
+        
         if let defaultCell = cell as? Default {
             let formatter = DateFormatter()
             formatter.dateFormat = "dd/MM/YYYY"
             let formatterTime = DateFormatter()
             formatterTime.dateFormat = "hh:mm:ss"
-            defaultCell.title.text = formatter.string(from: arrayList[0].chegada as Date)
-            defaultCell.arrived.text = "Chegada ás \(formatterTime.string(from: arrayList[0].chegada as Date))"
-            defaultCell.departure.text = "Saída ás \(formatterTime.string(from: arrayList[0].saida as Date))"
+            defaultCell.title.text = formatter.string(from: arrayList[indexPath.row].chegada as Date)
+            defaultCell.arrived.text = "Chegada ás \(formatterTime.string(from: arrayList[indexPath.row].chegada as Date))"
+            defaultCell.departure.text = "Saída ás \(formatterTime.string(from: arrayList[indexPath.row].saida as Date))"
             return defaultCell
         }
         return cell
