@@ -19,7 +19,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let realm = try! Realm()
         places = realm.objects(MyPlaces)
         loadAnnotations()

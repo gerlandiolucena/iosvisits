@@ -14,8 +14,8 @@ class MyPlaces: Object {
 
     dynamic var latitude: Double = 0.0
     dynamic var longitude: Double = 0.0
-    dynamic var chegada: NSDate = NSDate()
-    dynamic var saida: NSDate =  NSDate()
+    dynamic var chegada: Date = Date()
+    dynamic var saida: Date =  Date()
     dynamic var Nome: String?
     
     func saveObject(){

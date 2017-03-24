@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var window: UIWindow?
     var locationManager: CLLocationManager?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         locationManager = CLLocationManager()
         locationManager?.delegate = self
@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         let notificationCategory:UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
         notificationCategory.identifier = "INVITE_CATEGORY"
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes:[.Sound, .Alert, .Badge], categories: nil))
-        //addPlaces()
+        application.registerUserNotificationSettings(UIUserNotificationSettings(types:[.sound, .alert, .badge], categories: nil))
+        addPlaces()
         
         return true
     }
@@ -35,46 +35,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func addPlaces() {
         MyPlaces(value: ["latitude": -23.595708,
         "longitude": -46.684340,
-        "chegada": NSDate(),
-        "saida": NSDate()]).saveObject()
+        "chegada": Date(),
+        "saida": Date()]).saveObject()
         
         MyPlaces(value: ["latitude": -23.596566,
         "longitude": -46.684570,
-        "chegada": NSDate(),
-        "saida": NSDate()]).saveObject()
+        "chegada": Date(),
+        "saida": Date()]).saveObject()
     }
     
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         application.registerForRemoteNotifications()
     }
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        NSUserDefaults.standardUserDefaults().setObject(deviceToken.description, forKey: "dispositivoID")
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        UserDefaults.standard.set(deviceToken.description, forKey: "dispositivoID")
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
     }
 
-    func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
         //A visita ainda não finalizou
-        if !visit.departureDate.isEqualToDate(NSDate.distantFuture()) {
-            let dateFormatter = NSDateFormatter()
+        if visit.departureDate != Date.distantFuture {
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/YYYY hh:mm:ss"
-            let message = "\(dateFormatter.stringFromDate(visit.arrivalDate)), \(visit.coordinate.latitude), \(visit.coordinate.longitude), \(visit.horizontalAccuracy)"
+            let message = "\(dateFormatter.string(from: visit.arrivalDate)), \(visit.coordinate.latitude), \(visit.coordinate.longitude), \(visit.horizontalAccuracy)"
             NotificationManager.showNotification("Local visitado!", message: message)
             MyPlaces(value: ["latitude": visit.coordinate.latitude,
             "longitude": visit.coordinate.longitude,
@@ -85,11 +85,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         }
     }
     
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         //
     }
     
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         //
     }
 

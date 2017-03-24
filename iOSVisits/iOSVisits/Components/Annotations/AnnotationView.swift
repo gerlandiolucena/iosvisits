@@ -23,8 +23,8 @@ class AnnotationView: MKAnnotationView {
     let bigFontSize: CGFloat = 14.0
     let smallFontSize: CGFloat = 12.0
     let backgroundPinColor = UIColor(red: 58.0 / 255.0, green: 130.0 / 255.0, blue: 168.0 / 255.0, alpha: 1.0)
-    let backgroundSelectedPinColor = UIColor.darkGrayColor()
-    let backgroundVisualizedPinColor = UIColor.lightGrayColor()
+    let backgroundSelectedPinColor = UIColor.darkGray
+    let backgroundVisualizedPinColor = UIColor.lightGray
     
     override init(annotation: MKAnnotation!, reuseIdentifier: String!) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -39,13 +39,9 @@ class AnnotationView: MKAnnotationView {
         super.init(coder: aDecoder)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         //let color = getRealColor()
-        super.drawRect(rect)
+        super.draw(rect)
 //        if !isCluster {
 //            self.drawBellowArrowWithRect(rect, color: color)
 //        }
@@ -62,26 +58,26 @@ class AnnotationView: MKAnnotationView {
 //        }
     }
     
-    func drawBellowArrowWithRect(rect: CGRect, color: UIColor) {
+    func drawBellowArrowWithRect(_ rect: CGRect, color: UIColor) {
         let bezierPath = UIBezierPath()
-        bezierPath.moveToPoint(CGPointMake((rect.size.width / 2.0) - 4.0, rect.size.height - 4.0))
-        bezierPath.addLineToPoint(CGPointMake((rect.size.width / 2.0), rect.size.height))
-        bezierPath.addLineToPoint(CGPointMake((rect.size.width / 2.0) + 4.0, rect.size.height - 4.0))
+        bezierPath.move(to: CGPoint(x: (rect.size.width / 2.0) - 4.0, y: rect.size.height - 4.0))
+        bezierPath.addLine(to: CGPoint(x: (rect.size.width / 2.0), y: rect.size.height))
+        bezierPath.addLine(to: CGPoint(x: (rect.size.width / 2.0) + 4.0, y: rect.size.height - 4.0))
         color.setFill()
         bezierPath.fill()
     }
     
-    func sizeOfString(string: NSString) -> CGSize {
-        let font = UIFont.systemFontOfSize(bigFontSize)
-        let size = string.sizeWithAttributes([NSFontAttributeName: font])
+    func sizeOfString(_ string: NSString) -> CGSize {
+        let font = UIFont.systemFont(ofSize: bigFontSize)
+        let size = string.size(attributes: [NSFontAttributeName: font])
         
-        return CGSizeMake(size.width, size.height)
+        return CGSize(width: size.width, height: size.height)
     }
     
-    func resizeString(value: NSMutableAttributedString, range: NSRange) -> NSMutableAttributedString {
+    func resizeString(_ value: NSMutableAttributedString, range: NSRange) -> NSMutableAttributedString {
         let fontSize: CGFloat = smallFontSize
-        let boldFont = UIFont.systemFontOfSize(bigFontSize)
-        let regularFont = UIFont.systemFontOfSize(fontSize)
+        let boldFont = UIFont.systemFont(ofSize: bigFontSize)
+        let regularFont = UIFont.systemFont(ofSize: fontSize)
         
         // Create the attributes
         let attrs = [NSFontAttributeName: boldFont]
@@ -93,12 +89,12 @@ class AnnotationView: MKAnnotationView {
         return response
     }
     
-    func formatPriceString(priceString: NSString) -> NSMutableAttributedString {
+    func formatPriceString(_ priceString: NSString) -> NSMutableAttributedString {
         var response = NSMutableAttributedString(string: priceString as String)
         
         do {
-            let finalNumbersRegex = try NSRegularExpression(pattern: "\\.+[0-9]{3,3}", options: NSRegularExpressionOptions.AllowCommentsAndWhitespace)
-            let regexResult = finalNumbersRegex.firstMatchInString(response.string, options: NSMatchingOptions.ReportProgress, range: NSMakeRange(0, response.string.characters.count ))
+            let finalNumbersRegex = try NSRegularExpression(pattern: "\\.+[0-9]{3,3}", options: NSRegularExpression.Options.allowCommentsAndWhitespace)
+            let regexResult = finalNumbersRegex.firstMatch(in: response.string, options: NSRegularExpression.MatchingOptions.reportProgress, range: NSMakeRange(0, response.string.characters.count ))
             
             if regexResult!.range.location != NSNotFound {
                 response = self.resizeString(response, range: regexResult!.range)
@@ -106,33 +102,33 @@ class AnnotationView: MKAnnotationView {
         }
         catch {}
         
-        var range = response.string.rangeOfString("mi")
+        var range = response.string.range(of: "mi")
         if range?.isEmpty == false {
-            let start = response.string.startIndex.distanceTo(range!.startIndex)
+            let start = response.string.characters.distance(from: response.string.startIndex, to: range!.lowerBound)
             response = self.resizeString(response, range: NSMakeRange(start, 2))
         }
         
-        range = response.string.rangeOfString("+")
+        range = response.string.range(of: "+")
         if range?.isEmpty == false  {
-            let start = response.string.startIndex.distanceTo(range!.startIndex)
+            let start = response.string.characters.distance(from: response.string.startIndex, to: range!.lowerBound)
             response = self.resizeString(response, range: NSMakeRange(start, 1))
         }
         
         return response
     }
     
-    func configureNumberLabel(text: String, cornerRadius: CGFloat, isCluster: Bool) {
+    func configureNumberLabel(_ text: String, cornerRadius: CGFloat, isCluster: Bool) {
         if self.numberLabel == nil {
-            self.numberLabel = UILabel(frame: CGRectMake(0, 0, frame.size.width, frame.size.height))
+            self.numberLabel = UILabel(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
             self.numberLabel!.textColor = UIColor(white: 1.0, alpha: 1.0)
-            self.numberLabel!.textAlignment = .Center
-            self.numberLabel!.backgroundColor =  UIColor.clearColor()
+            self.numberLabel!.textAlignment = .center
+            self.numberLabel!.backgroundColor =  UIColor.clear
             self.addSubview(self.numberLabel!)
         } else {
-            self.numberLabel!.frame = CGRectMake(0, 0, frame.size.width, frame.size.height)
+            self.numberLabel!.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
         }
         
-        self.numberLabel!.font =  UIFont.systemFontOfSize(bigFontSize)
+        self.numberLabel!.font =  UIFont.systemFont(ofSize: bigFontSize)
         self.numberLabel!.text = text
         self.numberLabel!.backgroundColor = getRealColor()
         self.numberLabel!.layer.cornerRadius = cornerRadius
@@ -154,19 +150,19 @@ class AnnotationView: MKAnnotationView {
 //                configureNumberLabel(String(offerAnnotation.offersDetail.count), cornerRadius: frame.size.height / 2, isCluster: true)
 //            }
 //        } else {
-            frame.size = self.sizeOfString(formatedPrice)
+            frame.size = self.sizeOfString(formatedPrice as NSString)
             configureNumberLabel(formatedPrice, cornerRadius: 5, isCluster: false)
 //        }
         
-        self.backgroundColor =  UIColor.clearColor()
+        self.backgroundColor =  UIColor.clear
 //        if !isCluster {
 //            frame.size.width += 10.0
 //        }
 //        
-        super.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height + 4)
+        super.frame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: frame.size.height + 4)
         
         if self.numberLabel != nil {
-            self.numberLabel!.frame = CGRectMake(0, 0, frame.size.width, frame.size.height)
+            self.numberLabel!.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
         }
     }
 }

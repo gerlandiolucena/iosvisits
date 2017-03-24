@@ -17,32 +17,32 @@ enum Period: String {
 
 class NotificationManager {
 
-    class func showNotification(title: String, message: String){
+    class func showNotification(_ title: String, message: String){
         let notification = UILocalNotification()
         notification.alertTitle = title
         notification.alertBody = message
-        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        UIApplication.shared.presentLocalNotificationNow(notification)
     }
     
-    class func scheduleNotification(title: String, message: String, interval: Int, forPeriod: Period){
+    class func scheduleNotification(_ title: String, message: String, interval: Int, forPeriod: Period){
         if wasFired(forPeriod) {
             let notification = UILocalNotification()
             notification.alertTitle = title
             notification.alertBody = message
-            notification.fireDate = NSDate(timeIntervalSinceNow: NSTimeInterval(interval))
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
-            NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: forPeriod.rawValue)
+            notification.fireDate = Date(timeIntervalSinceNow: TimeInterval(interval))
+            UIApplication.shared.scheduleLocalNotification(notification)
+            UserDefaults.standard.set(Date(), forKey: forPeriod.rawValue)
         }
     }
     
-    class func wasFired(forPeriod: Period) -> Bool {
-        if let firedDateObj = NSUserDefaults.standardUserDefaults().objectForKey(forPeriod.rawValue) as? NSDate {
-            let formatedDate = NSDateFormatter()
+    class func wasFired(_ forPeriod: Period) -> Bool {
+        if let firedDateObj = UserDefaults.standard.object(forKey: forPeriod.rawValue) as? Date {
+            let formatedDate = DateFormatter()
             formatedDate.dateFormat = "yyyy/MM/dd 00:00:00"
             
-            if let currentDate = formatedDate.dateFromString(formatedDate.stringFromDate(NSDate())) {
-                if let firedDate = formatedDate.dateFromString(formatedDate.stringFromDate(firedDateObj)) {
-                    return (currentDate.compare(firedDate) == .OrderedAscending)
+            if let currentDate = formatedDate.date(from: formatedDate.string(from: Date())) {
+                if let firedDate = formatedDate.date(from: formatedDate.string(from: firedDateObj)) {
+                    return (currentDate.compare(firedDate) == .orderedAscending)
                 }
             }
         }

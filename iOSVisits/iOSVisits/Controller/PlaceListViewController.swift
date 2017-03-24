@@ -26,29 +26,29 @@ class PlaceListViewController: UITableViewController {
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         tableView.contentInset = UIEdgeInsetsMake(40.0, 0.0, 0.0, 0.0)
         tableView.reloadData()
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return arrayList.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "default", for: indexPath)
         if let defaultCell = cell as? Default {
-            let formatter = NSDateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "dd/MM/YYYY"
-            let formatterTime = NSDateFormatter()
+            let formatterTime = DateFormatter()
             formatterTime.dateFormat = "hh:mm:ss"
-            defaultCell.title.text = formatter.stringFromDate(arrayList[0].chegada)
-            defaultCell.arrived.text = "Chegada ás \(formatterTime.stringFromDate(arrayList[0].chegada))"
-            defaultCell.departure.text = "Saída ás \(formatterTime.stringFromDate(arrayList[0].saida))"
+            defaultCell.title.text = formatter.string(from: arrayList[0].chegada as Date)
+            defaultCell.arrived.text = "Chegada ás \(formatterTime.string(from: arrayList[0].chegada as Date))"
+            defaultCell.departure.text = "Saída ás \(formatterTime.string(from: arrayList[0].saida as Date))"
             return defaultCell
         }
         return cell
